@@ -2,35 +2,31 @@
 import { RouterLink, useRoute } from "vue-router";
 import useShows from "@/composables/shows";
 import { watch } from "vue";
+import type { Show } from "@/types";
 
-const route = useRoute();
-const { shows, fetchShows, isLoading } = useShows();
-
-if (route.query.search) {
-    fetchShows(route.query.search as string);
-}
-
-watch(() => route.query.search, (val, oldVal) => {
-    fetchShows(route.query.search as string);
-})
+const props = defineProps<{
+    shows: Show[];
+    hasMoreShows: Boolean;
+    isLoading: Boolean;
+}>();
 </script>
 
 <template>
-    <h1 v-if="isLoading">Loading.....</h1>
-    <h1 v-else-if="shows.length === 0">No results found</h1>
+    <h1 v-if="props.isLoading">Loading.....</h1>
+    <h1 v-else-if="props.shows.length === 0">No results found</h1>
     <ul v-else class="cards unstyled-ul">
-        <li v-for="item in shows" :key="item.show.id">
-            <RouterLink :to="'/showDetails/' + item.show.id">
+        <li v-for="show in props.shows" :key="show.id">
+            <RouterLink :to="'/showDetails/' + show.id">
                 <article class="card">
-                    <img :src="item.show.image?.medium" :alt="item.show.name" />
+                    <img :src="show.image?.medium" :alt="show.name" />
                     <div class="container">
                         <header>
-                            <h2>{{ item.show.name }}</h2>
+                            <h2>{{ show.name }}</h2>
                         </header>
 
 
                         <div class="content">
-                            <p> {{ item.show.summary?.slice(0, 100) }} </p>
+                            <p> {{ show.summary?.slice(0, 100) }} </p>
                         </div>
                     </div>
 
@@ -38,6 +34,7 @@ watch(() => route.query.search, (val, oldVal) => {
             </RouterLink>
         </li>
     </ul>
+    <button v-if="props.hasMoreShows" @click="$emit('loadMore')">Load more</button>
 </template>
 
 <style scoped>
