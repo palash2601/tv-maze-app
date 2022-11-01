@@ -32,7 +32,7 @@ export default function useShows() {
 
   const loadMoreShows = async () => {
     isLoading.value = true
-    
+      
       const result = await fetchApi<Show[]>(
         `${`${HOST}`}/shows?page=${page.value}`
       );

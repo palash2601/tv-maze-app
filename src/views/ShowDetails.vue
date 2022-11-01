@@ -1,16 +1,31 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
+import Tag from 'primevue/tag';
 import useShows from "@/composables/shows";
+import MultiRowList from "@/components/MultiRowList.vue";
+import { computed } from "vue";
+import Skeleton from 'primevue/skeleton';
 
 const route = useRoute();
 const { show, fetchShowDetails, isLoading, error } = useShows();
 
 fetchShowDetails(route.params.id as string);
+
+
+const multiRowListItems = computed(() => {
+  return show.value?._embedded.seasons.map((season) => ({
+    image: season.image?.medium,
+    id: season.id,
+    name: season.name,
+    link: ``
+  }))
+})
 </script>
 
 <template>
-
-  <h1 v-if="isLoading">Loading.....</h1>
+  <h1 v-if="isLoading">
+    <Skeleton width="100%" height="14rem" />
+  </h1>
   <p v-else-if="error">Something went wrong</p>
   <article v-else-if="show">
     <h2> {{ show.name }}</h2>
@@ -25,36 +40,35 @@ fetchShowDetails(route.params.id as string);
           <dt>Premiered</dt>
           <dd>{{ show.premiered }}</dd>
         </dl>
-        <div v-for="genre in show.genres" :key="genre">
-          {{ genre }}
+        <div class="genre-list">
+          <Tag v-for="genre in show.genres" :key="genre" class="mr-2" value="Primary" rounded>{{ genre }}</Tag>
         </div>
         <span v-html="show.summary"></span>
       </section>
     </section>
-    <h3>Seasons</h3>
-    <div v-for="season in show._embedded.seasons" :key="season.id">
 
-      <section class="container-2-col">
-        <img :alt="season.name" :src="season.image?.medium" />
+    <h3>Seasons</h3>
+    <MultiRowList :items="multiRowListItems">
+      <template v-for="season in show._embedded.seasons" :key="season.id" #[season.id]>
+        <h4>Season {{ season.number }}</h4>
         <dl>
           <dt>Premiered</dt>
           <dd>{{ season.premiereDate }}</dd>
           <dt>Episodes</dt>
           <dd>{{ season.episodeOrder }}</dd>
         </dl>
-      </section>
-      <span v-html="season.summary"></span>
-
-    </div>
+      </template>
+    </MultiRowList>
   </article>
-
 </template>
 
 <style scoped>
+.genre-list .p-tag:not(:first-child) {
+  margin-left: 6px;
+}
+
 .container-2-col {
   display: flex;
-  /* grid-template-columns: 1fr 8fr;
-  gap: 12px; */
   flex-direction: row;
 }
 

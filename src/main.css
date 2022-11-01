@@ -1,4 +1,8 @@
+@import 'primevue/resources/themes/saga-blue/theme.css';
+@import 'primevue/resources/primevue.min.css';
+@import url('primeicons/primeicons.css');
+
+
 body {
     margin: 0;
-    background-color: #f0f0f0;
 }
