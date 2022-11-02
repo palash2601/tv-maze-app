@@ -10,12 +10,7 @@ const props = defineProps<{
 
 <template>
   <div className="search-input">
-    <input
-      id="searchInput"
-      label="Search"
-      :value="props.value"
-      ref="searchInput"
-    />
+    <input id="searchInput" :value="props.value" ref="searchInput" aria-label="Search" />
     <button @click="$emit('searchChange', searchInput?.value)">Search</button>
   </div>
 </template>
@@ -35,7 +30,7 @@ select {
 
 button {
   width: 100%;
-  background-color: #4caf50;
+  background-color: #295c2a;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;

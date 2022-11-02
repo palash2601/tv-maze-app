@@ -5,6 +5,10 @@ import useShows from "@/composables/shows";
 import Message from "primevue/message";
 const { loadMoreShows, showsCount, error } = useShows();
 
+/*
+ * As of now the data is displayed based on limited dataset as no suitable API is
+ * available to display shows as per the requirement.
+ */
 if (showsCount.value === 0) {
   loadMoreShows();
 }
@@ -17,9 +21,7 @@ if (showsCount.value === 0) {
     </nav>
   </header>
   <main>
-    <Message :severity="'error'" v-if="error" :closable="false"
-      >Something went wrong</Message
-    >
+    <Message :severity="'error'" v-if="error" :closable="false">Something went wrong</Message>
     <RouterView />
   </main>
 </template>
@@ -28,8 +30,6 @@ if (showsCount.value === 0) {
 main {
   max-width: 1280px;
   margin: 0 auto;
-  margin-top: 24px;
-  padding: 0 16px;
 }
 
 nav {
@@ -45,26 +45,9 @@ nav {
   padding: 0 8px;
 }
 
-nav a.router-link-exact-active {
-  color: green;
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
 nav a {
   display: inline-block;
   padding: 0 1rem;
   color: white;
 }
-
-/* @media (min-width: 1024px) {
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-
-  }
-} */
 </style>

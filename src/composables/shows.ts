@@ -1,6 +1,10 @@
 import { ref, computed } from "vue";
-
 import type { Show } from "../types";
+
+type FetchOptions<S> = {
+  method: string;
+  body: S;
+};
 
 const HOST = `https://api.tvmaze.com`;
 const API_URLS = {
@@ -63,11 +67,6 @@ export default function useShows() {
     );
     isLoading.value = false;
   }
-
-  type FetchOptions<S> = {
-    method: string;
-    body: S;
-  };
 
   function fetchApi<T, S = void>(
     url: string,

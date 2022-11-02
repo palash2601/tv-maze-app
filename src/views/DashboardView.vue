@@ -29,7 +29,7 @@ function searchShowsWithStr() {
 function searchChangeHandler(val: string) {
   if (val) {
     router.push({
-      name: "home",
+      name: "dashboard",
       query: {
         search: val,
       },
@@ -39,12 +39,15 @@ function searchChangeHandler(val: string) {
 </script>
 
 <template>
-  <SearchInputVue
-    :value="searchStr"
-    @search-change="searchChangeHandler"
-  ></SearchInputVue>
-
-  <section v-if="!error">
+  <div class="banner">
+    <h1>Its fun time</h1>
+    <h2>Browse TV Shows & Web Series</h2>
+    <SearchInputVue
+      :value="searchStr"
+      @search-change="searchChangeHandler"
+    ></SearchInputVue>
+  </div>
+  <section v-if="!error" class="padding-l-r-16">
     <ShowsList
       v-if="searchStr"
       :shows="showsSearchResults"
@@ -52,22 +55,51 @@ function searchChangeHandler(val: string) {
       :displayAsMultiRowList="true"
     >
     </ShowsList>
-    <section v-else>
-      <h2>Drama</h2>
+    <section v-else v-for="genre in ['Drama', 'Comedy', 'Sports']" :key="genre">
+      <h2>{{ genre }}</h2>
       <ShowsList
-        :shows="showsByGenre('Drama')"
-        :isLoading="isLoading"
-      ></ShowsList>
-      <h2>Romance</h2>
-      <ShowsList
-        :shows="showsByGenre('Romance')"
-        :isLoading="isLoading"
-      ></ShowsList>
-      <h2>Sports</h2>
-      <ShowsList
-        :shows="showsByGenre('Sports')"
+        :shows="showsByGenre(genre)"
         :isLoading="isLoading"
       ></ShowsList>
     </section>
   </section>
 </template>
+
+<style scope>
+.banner {
+  color: white;
+  background-image: url("../../assets/banner.webp");
+  background-color: #cccccc;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-position: center;
+  background-size: cover;
+  height: 380px;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.banner h1 {
+  margin-bottom: 0;
+}
+
+@media only screen and (min-width: 421px) and (max-width: 768px) {
+  .banner {
+    height: 300px;
+  }
+}
+
+@media only screen and (min-width: 361px) and (max-width: 420px) {
+  .banner {
+    height: 280px;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .banner {
+    height: 200px;
+  }
+}
+</style>

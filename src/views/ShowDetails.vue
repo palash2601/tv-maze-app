@@ -25,7 +25,7 @@ const multiRowListItems = computed(() => {
   <h1 v-if="isLoading">
     <Skeleton width="100%" height="14rem" />
   </h1>
-  <article v-else-if="show && !error">
+  <article v-else-if="show && !error" class="padding-l-r-16">
     <h2>{{ show.name }}</h2>
     <section class="container-2-col">
       <div class="details__img">
