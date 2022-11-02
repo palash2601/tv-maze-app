@@ -1,9 +1,9 @@
 import { createApp } from "vue";
-import PrimeVue from 'primevue/config';
+import PrimeVue from "primevue/config";
 import App from "./App.vue";
 import router from "./router";
 
-import "./main.css"
+import "./main.css";
 
 const app = createApp(App);
 app.use(PrimeVue);

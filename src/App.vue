@@ -1,17 +1,27 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
+
+import useShows from "@/composables/shows";
+import Message from "primevue/message";
+const { loadMoreShows, showsCount, error } = useShows();
+
+if (showsCount.value === 0) {
+  loadMoreShows();
+}
 </script>
 
 <template>
   <header>
     <nav>
-      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/">TVShows</RouterLink>
     </nav>
   </header>
   <main>
+    <Message :severity="'error'" v-if="error" :closable="false"
+      >Something went wrong</Message
+    >
     <RouterView />
   </main>
-
 </template>
 
 <style scoped>
@@ -49,12 +59,12 @@ nav a {
   color: white;
 }
 
-@media (min-width: 1024px) {
+/* @media (min-width: 1024px) {
 
   nav {
     text-align: left;
     margin-left: -1rem;
 
   }
-}
+} */
 </style>

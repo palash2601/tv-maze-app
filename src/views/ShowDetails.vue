@@ -1,36 +1,34 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import Tag from 'primevue/tag';
+import Tag from "primevue/tag";
 import useShows from "@/composables/shows";
 import MultiRowList from "@/components/MultiRowList.vue";
 import { computed } from "vue";
-import Skeleton from 'primevue/skeleton';
+import Skeleton from "primevue/skeleton";
 
 const route = useRoute();
 const { show, fetchShowDetails, isLoading, error } = useShows();
 
 fetchShowDetails(route.params.id as string);
 
-
 const multiRowListItems = computed(() => {
   return show.value?._embedded.seasons.map((season) => ({
     image: season.image?.medium,
     id: season.id,
     name: season.name,
-    link: ``
-  }))
-})
+    link: ``,
+  }));
+});
 </script>
 
 <template>
   <h1 v-if="isLoading">
     <Skeleton width="100%" height="14rem" />
   </h1>
-  <p v-else-if="error">Something went wrong</p>
-  <article v-else-if="show">
-    <h2> {{ show.name }}</h2>
+  <article v-else-if="show && !error">
+    <h2>{{ show.name }}</h2>
     <section class="container-2-col">
-      <div>
+      <div class="details__img">
         <img :alt="show.name" :src="show.image?.medium" />
       </div>
       <section>
@@ -41,17 +39,28 @@ const multiRowListItems = computed(() => {
           <dd>{{ show.premiered }}</dd>
         </dl>
         <div class="genre-list">
-          <Tag v-for="genre in show.genres" :key="genre" class="mr-2" value="Primary" rounded>{{ genre }}</Tag>
+          <Tag
+            v-for="genre in show.genres"
+            :key="genre"
+            class="mr-2"
+            value="Primary"
+            rounded
+            >{{ genre }}</Tag
+          >
         </div>
-        <span v-html="show.summary"></span>
+        <section v-html="show.summary"></section>
       </section>
     </section>
 
     <h3>Seasons</h3>
     <MultiRowList :items="multiRowListItems">
-      <template v-for="season in show._embedded.seasons" :key="season.id" #[season.id]>
-        <h4>Season {{ season.number }}</h4>
-        <dl>
+      <template
+        v-for="season in show._embedded.seasons"
+        :key="season.id"
+        #[season.id]
+      >
+        <h4 class="season__title">Season {{ season.number }}</h4>
+        <dl class="season__dl">
           <dt>Premiered</dt>
           <dd>{{ season.premiereDate }}</dd>
           <dt>Episodes</dt>
@@ -63,6 +72,19 @@ const multiRowListItems = computed(() => {
 </template>
 
 <style scoped>
+.details__img {
+  display: flex;
+  justify-content: center;
+}
+
+.season__title {
+  margin: 0;
+}
+
+.season__dl {
+  margin: 0;
+}
+
 .genre-list .p-tag:not(:first-child) {
   margin-left: 6px;
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 
 const searchInput = ref<HTMLFormElement>();
 
@@ -10,7 +10,12 @@ const props = defineProps<{
 
 <template>
   <div className="search-input">
-    <input id="searchInput" label="Search" :value="props.value" ref="searchInput" />
+    <input
+      id="searchInput"
+      label="Search"
+      :value="props.value"
+      ref="searchInput"
+    />
     <button @click="$emit('searchChange', searchInput?.value)">Search</button>
   </div>
 </template>
@@ -30,7 +35,7 @@ select {
 
 button {
   width: 100%;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
@@ -44,6 +49,5 @@ button {
   display: grid;
   grid-template-columns: 5fr 1fr;
   column-gap: 10px;
-
 }
 </style>
