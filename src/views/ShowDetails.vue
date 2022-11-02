@@ -32,21 +32,14 @@ const multiRowListItems = computed(() => {
         <img :alt="show.name" :src="show.image?.medium" />
       </div>
       <section>
-        <dl>
+        <dl class="dl--wide">
           <dt>Rating</dt>
           <dd>{{ show.rating.average }}</dd>
           <dt>Premiered</dt>
           <dd>{{ show.premiered }}</dd>
         </dl>
         <div class="genre-list">
-          <Tag
-            v-for="genre in show.genres"
-            :key="genre"
-            class="mr-2"
-            value="Primary"
-            rounded
-            >{{ genre }}</Tag
-          >
+          <Tag v-for="genre in show.genres" :key="genre" class="mr-2" value="Primary" rounded>{{ genre }}</Tag>
         </div>
         <section v-html="show.summary"></section>
       </section>
@@ -54,11 +47,7 @@ const multiRowListItems = computed(() => {
 
     <h3>Seasons</h3>
     <MultiRowList :items="multiRowListItems">
-      <template
-        v-for="season in show._embedded.seasons"
-        :key="season.id"
-        #[season.id]
-      >
+      <template v-for="season in show._embedded.seasons" :key="season.id" #[season.id]>
         <h4 class="season__title">Season {{ season.number }}</h4>
         <dl class="season__dl">
           <dt>Premiered</dt>
@@ -99,22 +88,47 @@ const multiRowListItems = computed(() => {
 }
 
 dl {
-  display: flex;
-  align-self: baseline;
-  flex-wrap: wrap;
   max-width: 380px;
 }
 
 dt {
   font-weight: 300;
-  width: 40%;
   padding: 4px 0;
 }
 
 dd {
   margin-left: auto;
-  width: 60%;
   padding: 4px 0;
+}
+
+.dl--wide {
+  display: flex;
+  align-self: baseline;
+  flex-wrap: wrap;
+}
+
+.dl--wide dt {
+  width: 40%;
+}
+
+.dl--wide dd {
+  width: 60%;
+}
+
+@media only screen and (min-width: 600px) {
+  dl {
+    display: flex;
+    align-self: baseline;
+    flex-wrap: wrap;
+  }
+
+  dt {
+    width: 40%;
+  }
+
+  dd {
+    width: 60%;
+  }
 }
 
 @media only screen and (max-width: 600px) {

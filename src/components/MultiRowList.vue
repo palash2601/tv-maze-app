@@ -3,18 +3,20 @@ import { RouterLink } from "vue-router";
 
 const props = defineProps<{
   items:
-    | {
-        image: string;
-        id: number;
-        name: string;
-        link: string;
-      }[]
-    | undefined;
+  | {
+    image: string;
+    id: number;
+    name: string;
+    link: string;
+
+  }[]
+  | undefined;
+  withPadding?: boolean;
 }>();
 </script>
 
 <template>
-  <ul class="cards unstyled-ul">
+  <ul :class="[{ 'padding-16': props.withPadding }, 'cards', 'unstyled-ul']">
     <li v-for="item in props.items" :key="item.id">
       <RouterLink :to="item.link">
         <img :src="item.image" :alt="item.name" />
@@ -28,6 +30,10 @@ const props = defineProps<{
 .unstyled-ul {
   list-style: none;
   padding-left: 0;
+}
+
+.padding-16 {
+  padding-left: 16px;
 }
 
 .cards {
@@ -52,7 +58,7 @@ const props = defineProps<{
   }
 }
 
-@media only screen and (min-width: 361px) and (max-width: 420px) {
+@media only screen and (max-width: 420px) {
   .cards {
     display: grid;
     grid-template-columns: 1fr 1fr;

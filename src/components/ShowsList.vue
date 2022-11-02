@@ -80,30 +80,25 @@ const multiRowListItems = computed(() => {
   </div>
 
   <h1 v-else-if="props.shows.length === 0">No results found</h1>
-  <Carousel
-    data-test="Carousel"
-    v-else-if="!!isCarouselVisible"
-    :value="props.shows"
-    :responsiveOptions="responsiveOptions"
-    :numVisible="numVisible"
-    :numScroll="4"
-    :showIndicators="false"
-  >
+  <Carousel data-test="Carousel" v-else-if="!!isCarouselVisible" :value="props.shows"
+    :responsiveOptions="responsiveOptions" :numVisible="numVisible" :numScroll="4" :showIndicators="false">
     <template #item="slotProps">
       <RouterLink :to="'/showDetails/' + slotProps.data.id">
-        <img
-          v-if="slotProps.data.image"
-          :src="slotProps.data.image?.medium"
-          :alt="slotProps.data.name"
-        />
+        <img v-if="slotProps.data.image" :src="slotProps.data.image?.medium" :alt="slotProps.data.name" />
         <h3 v-else>{{ slotProps.data.name }}</h3>
       </RouterLink>
     </template>
   </Carousel>
 
-  <MultiRowList
-    v-else
-    :items="multiRowListItems"
-    data-test="MultiRowList"
-  ></MultiRowList>
+  <MultiRowList :withPadding="true" v-else :items="multiRowListItems" data-test="MultiRowList"></MultiRowList>
 </template>
+
+<style scope>
+.p-carousel {
+  margin: 0 -16px;
+}
+
+.foo :deep(.unstyled-ul) {
+  padding-left: 16px;
+}
+</style>
