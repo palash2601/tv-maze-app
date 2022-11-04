@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
 
+import defaultImage from "../../assets/no-image-available.webp";
+
 const props = defineProps<{
   items:
   | {
@@ -19,7 +21,7 @@ const props = defineProps<{
   <ul :class="[{ 'padding-16': props.withPadding }, 'cards', 'unstyled-ul']">
     <li v-for="item in props.items" :key="item.id">
       <RouterLink :to="item.link">
-        <img :src="item.image" :alt="item.name" />
+        <img :src="item.image || defaultImage" :alt="item.name" />
       </RouterLink>
       <slot :name="item.id"></slot>
     </li>

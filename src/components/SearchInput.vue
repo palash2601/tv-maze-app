@@ -6,11 +6,21 @@ const searchInput = ref<HTMLFormElement>();
 const props = defineProps<{
   value: string;
 }>();
+
+const emit = defineEmits(['searchChange']);
+
+function handle(e: KeyboardEvent) {
+  const target = e.target as HTMLInputElement
+  if (e.key === 'Enter' && target.value) {
+    emit('searchChange', target.value)
+  }
+  return false;
+}
 </script>
 
 <template>
   <div className="search-input">
-    <input id="searchInput" :value="props.value" ref="searchInput" aria-label="Search" />
+    <input id="searchInput" :value="props.value" ref="searchInput" aria-label="Search" @keypress="handle" />
     <button @click="$emit('searchChange', searchInput?.value)">Search</button>
   </div>
 </template>
