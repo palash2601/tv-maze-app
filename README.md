@@ -3,6 +3,9 @@
 Single Page application to browser TV shows and see more details about it.
 
 Data source for the application: [http://www.tvmaze.com/api](http://www.tvmaze.com/api)
+
+Live demo: https://tv-maze-app-kappa.vercel.app/
+
 ## Functional Features
 
 - Browse TV shows based on genres like Drama, Comedy, Sports etc..
